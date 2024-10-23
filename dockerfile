@@ -8,8 +8,8 @@ RUN go build -ldflags="-s -w" -o /app main.go
 
 FROM scratch
 
-WORKDIR /
+WORKDIR /app
 
-COPY --from=builder /app /
+COPY --from=builder /app /app
 
 CMD ["./main"]
