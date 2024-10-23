@@ -1,15 +1,15 @@
-FROM golang:1.20-alpine AS builder
+FROM golang:alpine as builder
 
 WORKDIR /app
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o app .
+RUN go build -ldflags="-s -w" -o /app main.go
 
 FROM scratch
 
-COPY --from=builder /app/app /app
+WORKDIR /
 
-EXPOSE 8080
+COPY --from=builder /app /
 
-ENTRYPOINT ["/app"]
+CMD ["./main"]
